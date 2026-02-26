@@ -1,0 +1,84 @@
+<?php
+
+use App\Http\Controllers\API\AuthController as Auth;
+use App\Http\Controllers\Api\UserController as User;
+use App\Http\Controllers\Api\BarangController as Barang;
+use App\Http\Controllers\Api\KategoriController  as Kategori;
+use App\Http\Controllers\api\KategoriLaporanController;
+use App\Http\Controllers\api\PelaporController;
+use App\Http\Controllers\Api\SupplierController as Supplier;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| API Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register API routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "api" middleware group. Make something great!
+|
+*/
+
+// Public routes
+Route::post('register', [Auth::class, 'register']);
+Route::post('login', [Auth::class, 'login']);
+
+// Protected routes
+Route::middleware('auth:sanctum')->group(function () {
+
+    // Auth routes
+    Route::controller(Auth::class)->group(function () {
+        Route::post('logout', 'logout');
+        Route::get('me', 'me');
+    });
+
+    // Users routes
+    Route::controller(User::class)->group(function () {
+        Route::get('user', 'index');
+        Route::get('user/{id}', 'show');
+        Route::post('user', 'store');
+        Route::put('user/{id}', 'update');
+        Route::delete('user/{id}', 'destroy');
+    });
+
+    // Kategori routes
+    Route::controller(Kategori::class)->group(function () {
+        Route::get('kategori', 'index');
+        Route::get('kategori/{id}', 'show');
+        Route::post('kategori', 'store');
+        Route::put('kategori/{id}', 'update');
+        Route::delete('kategori/{id}', 'destroy');
+    });
+    // Supplier routes
+    Route::controller(Supplier::class)->group(function () {
+        Route::get('supplier', 'index');
+        Route::get('supplier/{id}', 'show');
+        Route::post('supplier', 'store');
+        Route::put('supplier/{id}', 'update');
+        Route::delete('supplier/{id}', 'destroy');
+    });
+    // Barang routes
+    Route::controller(Barang::class)->group(function () {
+        Route::get('barang', 'index');
+        Route::get('barang/listkategori', 'listKategori');
+        Route::get('barang/listsupplier', 'listSupplier');
+        Route::get('barang/{id}', 'show');
+        Route::post('barang', 'store');
+        Route::put('barang/{id}', 'update');
+        Route::delete('barang/{id}', 'destroy');
+    });
+
+    // Kategori Laporan routes
+    // Route::controller(KategoriLaporanController::class)->group(function () {
+    //     Route::get('kategori_laporan', 'index');
+    //     Route::get('kategori_laporan/listkategori', 'listKategori');
+    //     Route::get('kategori_laporan/{id}', 'show');
+    //     Route::post('kategori_laporan', 'store');
+    //     Route::put('kategori_laporan/{id}', 'update');
+    //     Route::delete('kategori_laporan/{id}', 'destroy');
+    // });
+    Route::resource('kategori_laporan', KategoriLaporanController::class);
+    Route::resource('pelapor', PelaporController::class);
+});
