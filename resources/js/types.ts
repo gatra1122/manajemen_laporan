@@ -13,8 +13,9 @@ export type UserType = {
 export type PelaporType = {
   id: number;
   nama: string;
-  email: string;
+  nik: string;
   telepon: string;
+  alamat: string;
   created_at: string;
   updated_at: string;
 };

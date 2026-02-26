@@ -24,7 +24,6 @@ class PelaporController extends Controller
             ->when($search, function ($q) use ($search) {
                 $q->where(function ($q) use ($search) {
                     $q->where('nama', 'ILIKE', "%{$search}%")
-                        ->orWhere('email', 'ILIKE', "%{$search}%")
                         ->orWhere('telepon', 'ILIKE', "%{$search}%");
                 });
             })
@@ -56,8 +55,9 @@ class PelaporController extends Controller
 
         $validated = $request->validate([
             'nama' => 'required|string|max:100',
-            'email' => 'required|email|max:100',
+            'nik' => 'required|string|max:16',
             'telepon' => 'required|string|max:20',
+            'alamat' => 'required|string|max:255',
         ]);
         $data = Pelapor::create($validated);
 
@@ -98,8 +98,9 @@ class PelaporController extends Controller
 
         $validated = $request->validate([
             'nama' => 'required|string|max:100',
-            'email' => 'required|email|max:100|unique:pelapor,email,' . $pelapor->id,
+            'nik' => 'required|string|max:16',
             'telepon' => 'required|string|max:20',
+            'alamat' => 'required|string|max:255',
         ]);
 
         $pelapor->update($validated);

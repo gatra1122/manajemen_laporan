@@ -77,11 +77,14 @@ const PelaporTable = () => {
                 <span className="capitalize">{info.cell.getValue()}</span>
             ),
         }),
-        columnHelper.accessor("email", {
-            header: "Email",
+        columnHelper.accessor("nik", {
+            header: "NIK",
         }),
         columnHelper.accessor("telepon", {
             header: "Telepon",
+        }),
+        columnHelper.accessor("alamat", {
+            header: "Alamat",
         }),
         columnHelper.accessor("updated_at", {
             cell: (info) => formatWIB(info.getValue()),

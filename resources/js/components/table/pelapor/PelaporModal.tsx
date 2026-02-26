@@ -12,7 +12,8 @@ import axiosClient from "../../../utils/axios";
 
 interface formDataType {
     nama: string;
-    email: string;
+    nik: string;
+    alamat: string;
     telepon: string;
 }
 
@@ -30,8 +31,9 @@ const PelaporModal = ({ state, selectedData, type, onClose }: ModalProps) => {
 
     const [formData, setFormData] = useState<formDataType>({
         nama: "",
-        email: "",
+        nik: "",
         telepon: "",
+        alamat: "",
     });
     const formInputChange = (
         e:
@@ -47,15 +49,17 @@ const PelaporModal = ({ state, selectedData, type, onClose }: ModalProps) => {
     const resetForm = () => {
         setFormData({
             nama: "",
-            email: "",
+            nik: "",
             telepon: "",
+            alamat: "",
         });
     };
     const fillForm = () => {
         setFormData({
             nama: selectedData?.nama || "",
-            email: selectedData?.email || "",
+            nik: selectedData?.nik || "",
             telepon: selectedData?.telepon || "",
+            alamat: selectedData?.alamat || "",
         });
     };
 
@@ -206,23 +210,23 @@ const PelaporModal = ({ state, selectedData, type, onClose }: ModalProps) => {
                                         <div>
                                             <label
                                                 className="block text-gray-700 mb-1"
-                                                htmlFor="email"
+                                                htmlFor="nik"
                                             >
-                                                Email*
+                                                NIK*
                                             </label>
                                             <input
-                                                name="email"
+                                                name="nik"
                                                 onChange={formInputChange}
-                                                value={formData?.email}
-                                                type="email"
-                                                id="email"
+                                                value={formData?.nik}
+                                                type="text"
+                                                id="nik"
                                                 className="form-input"
-                                                placeholder="Email..."
+                                                placeholder="NIK..."
                                                 disabled={type === "read"}
                                             />
                                             {errorMsg && (
                                                 <span className="text-red-500">
-                                                    {errorMsg?.email}
+                                                    {errorMsg?.nik}
                                                 </span>
                                             )}
                                         </div>
@@ -246,6 +250,29 @@ const PelaporModal = ({ state, selectedData, type, onClose }: ModalProps) => {
                                             {errorMsg && (
                                                 <span className="text-red-500">
                                                     {errorMsg?.telepon}
+                                                </span>
+                                            )}
+                                        </div>
+                                        <div>
+                                            <label
+                                                className="block text-gray-700 mb-1"
+                                                htmlFor="alamat"
+                                            >
+                                                Alamat*
+                                            </label>
+                                            <input
+                                                name="alamat"
+                                                onChange={formInputChange}
+                                                value={formData?.alamat}
+                                                type="text"
+                                                id="alamat"
+                                                className="form-input"
+                                                placeholder="Alamat..."
+                                                disabled={type === "read"}
+                                            />
+                                            {errorMsg && (
+                                                <span className="text-red-500">
+                                                    {errorMsg?.alamat}
                                                 </span>
                                             )}
                                         </div>

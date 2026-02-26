@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('pelapor', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->string('nik')->unique();
+            $table->string('nik', 16)->unique();
             $table->string('alamat');
             $table->string('telepon');
             $table->timestamps();
