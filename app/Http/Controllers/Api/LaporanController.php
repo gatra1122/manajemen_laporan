@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Pelapor;
+use App\Models\Laporan;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 
-class PelaporController extends Controller
+class LaporanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,11 +18,11 @@ class PelaporController extends Controller
         $perPage = (int) $request->query('per_page', 10);
         $search = $request->query('search');
 
-        $query = Pelapor::query()
+        $query = Laporan::with(['pelapor', 'kategori'])
             ->when($search, function ($q) use ($search) {
                 $q->where(function ($q) use ($search) {
-                    $q->where('nama', 'ILIKE', "%{$search}%")
-                        ->orWhere('telepon', 'ILIKE', "%{$search}%");
+                    $q->where('judul', 'ILIKE', "%{$search}%")
+                        ->orWhere('isi_laporan', 'ILIKE', "%{$search}%");
                 });
             })
             ->orderByDesc('updated_at');
@@ -31,17 +31,7 @@ class PelaporController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Semua data pelapor berhasil diambil.',
-            'data' => $data,
-        ]);
-    }
-
-    public function list()
-    {
-        $data = Pelapor::select('id', 'nama')->get();
-        return response()->json([
-            'success' => true,
-            'message' => 'Daftar pelapor berhasil diambil.',
+            'message' => 'Semua data laporan berhasil diambil.',
             'data' => $data,
         ]);
     }
@@ -57,17 +47,18 @@ class PelaporController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, Pelapor $pelapor)
+    public function store(Request $request, Laporan $lapo)
     {
-        Gate::authorize('create', $pelapor);
+        Gate::authorize('create', $lapo);
 
         $validated = $request->validate([
-            'nama' => 'required|string|max:100',
-            'nik' => 'required|string|max:16',
-            'telepon' => 'required|string|max:20',
-            'alamat' => 'required|string|max:255',
+            'pelapor_id'   => 'required|exists:pelapor,id',
+            'kategori_id'  => 'required|exists:kategori_laporan,id',
+            'judul'        => 'required|string|max:255',
+            'isi_laporan'  => 'required|string',
+            'status'       => 'nullable|in:Diajukan,Diproses,Selesai,Ditolak',
         ]);
-        $data = Pelapor::create($validated);
+        $data = Laporan::create($validated);
 
         return response()->json([
             'success' => true,
@@ -81,10 +72,10 @@ class PelaporController extends Controller
      */
     public function show(string $id)
     {
-        $data = Pelapor::findOrFail($id);
+        $data = Laporan::findOrFail($id);
         return response()->json([
             'success' => true,
-            'message' => 'Data pelapor berhasil diambil.',
+            'message' => 'Data laporan berhasil diambil.',
             'data' => $data,
         ]);
     }
@@ -100,38 +91,39 @@ class PelaporController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Pelapor $pelapor)
+    public function update(Request $request, Laporan $lapo)
     {
-        Gate::authorize('update', $pelapor);
+        Gate::authorize('update', $lapo);
 
         $validated = $request->validate([
-            'nama' => 'required|string|max:100',
-            'nik' => 'required|string|max:16',
-            'telepon' => 'required|string|max:20',
-            'alamat' => 'required|string|max:255',
+            'pelapor_id'   => 'required|exists:pelapor,id',
+            'kategori_id'  => 'required|exists:kategori_laporan,id',
+            'judul'        => 'required|string|max:255',
+            'isi_laporan'  => 'required|string',
+            'status'       => 'nullable|in:Diajukan,Diproses,Selesai,Ditolak',
         ]);
 
-        $pelapor->update($validated);
+        $lapo->update($validated);
 
         return response()->json([
             'success' => true,
-            'message' => 'Data pelapor berhasil diubah.',
-            'data' => $pelapor,
+            'message' => 'Data laporan berhasil diubah.',
+            'data' => $lapo,
         ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Pelapor $pelapor)
+    public function destroy(Laporan $lapo)
     {
-        Gate::authorize('delete', $pelapor);
+        Gate::authorize('delete', $lapo);
 
-        $pelapor->delete();
+        $lapo->delete();
 
         return response()->json([
             'success' => true,
-            'message' => 'Data pelapor berhasil dihapus.',
+            'message' => 'Data laporan berhasil dihapus.',
         ]);
     }
 }

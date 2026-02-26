@@ -27,13 +27,31 @@ export type KategoriLaporanType = {
   updated_at: string;
 };
 
-export type SupplierType = {
+export type LaporanType = {
   id: number;
-  supplier: string;
-  alamat: string;
-  kontak: string;
-  email: string;
-  deskripsi: string;
+  pelapor_id: string;
+  kategori_id: string;
+  judul: string;
+  isi_laporan: string;
+  status: 'Diajukan' | 'Diproses' | 'Selesai' | 'Ditolak';
   created_at: string;
   updated_at: string;
+
+  pelapor?: {
+    id: number;
+    nama: string;
+    nik: string;
+    telepon: string;
+    alamat: string;
+  };
+
+  kategori?: {
+    id: number;
+    nama: string;
+  };
 };
+
+export interface OptionType {
+  value: string;
+  label: string;
+}

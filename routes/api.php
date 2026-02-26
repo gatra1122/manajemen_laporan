@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\UserController as User;
 use App\Http\Controllers\Api\BarangController as Barang;
 use App\Http\Controllers\Api\KategoriController  as Kategori;
 use App\Http\Controllers\api\KategoriLaporanController;
+use App\Http\Controllers\api\LaporanController;
 use App\Http\Controllers\api\PelaporController;
 use App\Http\Controllers\Api\SupplierController as Supplier;
 use Illuminate\Http\Request;
@@ -42,43 +43,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('user/{id}', 'update');
         Route::delete('user/{id}', 'destroy');
     });
-
-    // Kategori routes
-    Route::controller(Kategori::class)->group(function () {
-        Route::get('kategori', 'index');
-        Route::get('kategori/{id}', 'show');
-        Route::post('kategori', 'store');
-        Route::put('kategori/{id}', 'update');
-        Route::delete('kategori/{id}', 'destroy');
-    });
-    // Supplier routes
-    Route::controller(Supplier::class)->group(function () {
-        Route::get('supplier', 'index');
-        Route::get('supplier/{id}', 'show');
-        Route::post('supplier', 'store');
-        Route::put('supplier/{id}', 'update');
-        Route::delete('supplier/{id}', 'destroy');
-    });
-    // Barang routes
-    Route::controller(Barang::class)->group(function () {
-        Route::get('barang', 'index');
-        Route::get('barang/listkategori', 'listKategori');
-        Route::get('barang/listsupplier', 'listSupplier');
-        Route::get('barang/{id}', 'show');
-        Route::post('barang', 'store');
-        Route::put('barang/{id}', 'update');
-        Route::delete('barang/{id}', 'destroy');
-    });
-
-    // Kategori Laporan routes
-    // Route::controller(KategoriLaporanController::class)->group(function () {
-    //     Route::get('kategori_laporan', 'index');
-    //     Route::get('kategori_laporan/listkategori', 'listKategori');
-    //     Route::get('kategori_laporan/{id}', 'show');
-    //     Route::post('kategori_laporan', 'store');
-    //     Route::put('kategori_laporan/{id}', 'update');
-    //     Route::delete('kategori_laporan/{id}', 'destroy');
-    // });
+    Route::get('kategori_laporan/list', [KategoriLaporanController::class, 'list']);
     Route::resource('kategori_laporan', KategoriLaporanController::class);
+    Route::get('pelapor/list', [PelaporController::class, 'list']);
     Route::resource('pelapor', PelaporController::class);
+    Route::resource('laporan', LaporanController::class);
 });

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { SupplierType, UserType } from '../../../types'
+import { UserType } from '../../../types'
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
@@ -55,7 +55,7 @@ const UserModal = ({ state, selectedData, formData, type, onClose, formInputChan
 
     const roleOptions: OptionType[] = [
         { value: 'admin', label: 'Admin' },
-        { value: 'user', label: 'User' },
+        { value: 'petugas', label: 'Petugas' },
     ];
 
     useEffect(() => {

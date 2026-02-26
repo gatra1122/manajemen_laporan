@@ -12,10 +12,17 @@
 - clone
 - composer install
 - npm install
+- cp .env.example .env
+- php artisan key:generate
+- buat database bernama 'man_laporan'
 - php artisan migrate
 - php artisan db:seed
 - php artisan serve
 - npm run dev
+
+## Login
+- admin1@email.com | 1234
+- petugas1@email.com | 1234
 
 ## About Laravel
 

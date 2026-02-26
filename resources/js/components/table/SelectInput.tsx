@@ -36,6 +36,11 @@ const SelectInput: React.FC<Props> = ({ name, value, onChange, options, isDisabl
       isLoading={isLoading}
       className='form-select'
       classNamePrefix="form-select"
+      menuPortalTarget={document.body}       // render dropdown ke body
+      menuPosition="fixed"                    // posisi fixed supaya tidak tertutup
+      styles={{
+        menuPortal: base => ({ ...base, zIndex: 9999 }), // pastikan z-index di atas modal
+      }}
     />
   );
 };

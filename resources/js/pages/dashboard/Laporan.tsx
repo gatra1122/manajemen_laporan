@@ -1,4 +1,4 @@
-import LaporanTable from '../../components/table/supplier/LaporanTable'
+import LaporanTable from '../../components/table/laporan/LaporanTable'
 
 const Laporan = () => {
   return (

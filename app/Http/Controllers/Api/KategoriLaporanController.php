@@ -32,6 +32,16 @@ class KategoriLaporanController extends Controller
         ]);
     }
 
+    public function list()
+    {
+        $data = KLap::select('id', 'nama')->get();
+        return response()->json([
+            'success' => true,
+            'message' => 'Daftar kategori laporan berhasil diambil.',
+            'data' => $data,
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
